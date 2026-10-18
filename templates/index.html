@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Classify a resume into a professional category.">
+    <title>Resume Category Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="page">
+      <section class="classifier-card" aria-labelledby="page-title">
+        <p class="eyebrow">Resume classifier</p>
+        <h1 id="page-title">Resume Category Classifier</h1>
+        <p class="intro">
+          Paste resume text below and the model will predict its professional category.
+        </p>
+
+        {% if error %}
+          <div class="message message-error" role="alert">{{ error }}</div>
+        {% endif %}
+
+        {% if prediction %}
+          <section class="result" aria-live="polite" aria-labelledby="result-title">
+            <p class="result-label" id="result-title">Predicted category</p>
+            <p class="result-category">{{ prediction }}</p>
+          </section>
+        {% endif %}
+
+        <form action="{{ url_for('predict') }}" method="post">
+          <label for="resume_text">Resume text</label>
+          <textarea
+            id="resume_text"
+            name="resume_text"
+            rows="10"
+            placeholder="For example: Python developer with experience building machine learning applications..."
+            required
+          >{{ resume_text }}</textarea>
+          <p class="hint">Include skills, responsibilities, and relevant experience.</p>
+          <button type="submit">Predict Category</button>
+        </form>
+      </section>
+      <footer>Built with Flask and scikit-learn</footer>
+    </main>
+  </body>
+</html>
